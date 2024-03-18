@@ -15,10 +15,31 @@ class StaffController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function handle(Request $request): View
+    public function handle(Request $request)
     {
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'email' => 'required|unique:users|max:255',
+                'name' => 'required',
+                'password' => 'required',
+            ]);
+
+            // add the new user
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'Staff',
+                'password' => $request->password,
+            ]);
+
+            session()->flash('message', 'User added successfully.');
+
+
+            return redirect()->back();
+        }
+
         return view('staff.handle', [
-            'user' => User::where("role", "Integration"),
+            'users' => User::where("role", "Staff")->where('id', '!=', Auth::user()->id)->get(),
         ]);
     }
 

@@ -38,6 +38,8 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "User",
             'email' => 'user@gmail.com',
+            'dob' => '1990-01-01',
+            'blood_group' => 'A+',
             'nic' => '200012364587',
             'password' => Hash::make('Welcome@1234'),
             'role' => 'User'

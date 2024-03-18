@@ -15,21 +15,47 @@ class AdminController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function handle(Request $request): View
+    public function handle(Request $request)
     {
+
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'email' => 'required|unique:users|max:255',
+                'name' => 'required',
+                'password' => 'required',
+            ]);
+
+            // add the new user
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'Admin',
+                'password' => $request->password,
+            ]);
+
+            session()->flash('message', 'User added successfully.');
+
+
+            return redirect()->back();
+        }
+
+
         return view('admins.handle', [
-            'user' => User::where("role", "Integration"),
+            'users' => User::where("role", "Admin")->where('id', '!=', Auth::user()->id)->get(),
         ]);
     }
 
     /**
      * Update the user's profile information.
      */
-    public function add(Request $request): View
+    public function deleteUser($id)
     {
 
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        User::find($id)->delete();
+
+        session()->flash('message', 'User deleted successfully.');
+
+
+        return redirect()->back();
     }
 }

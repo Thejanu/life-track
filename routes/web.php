@@ -41,12 +41,11 @@ Route::middleware(['auth', 'role:User'])->group(function () {
 
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::match(['get', 'post'], '/admins', [AdminController::class, 'handle'])->name('handleAdmins');
-    Route::get('/admins/suspend', [AdminController::class, 'delete'])->name('deleteAdmin');
     Route::match(['get', 'post'], '/staff', [StaffController::class, 'handle'])->name('handleStaff');
-    Route::get('/staff/suspend', [StaffController::class, 'delete'])->name('deleteStaff');
     Route::match(['get', 'post'], '/integrations', [IntegrationController::class, 'handle'])->name('handleIntegrations');
-    Route::get('/integrations/delete', [IntegrationController::class, 'delete'])->name('deleteIntegration');
     Route::get('/medical-categories', [MedicalRecordTypeController::class, 'handle'])->name('medicalCategories');
+
+    Route::get('/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
 });
 
 require __DIR__ . '/auth.php';

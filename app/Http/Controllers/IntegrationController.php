@@ -15,10 +15,31 @@ class IntegrationController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function handle(Request $request): View
+    public function handle(Request $request)
     {
+
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'email' => 'required|unique:users|max:255',
+                'name' => 'required',
+                'password' => 'required',
+            ]);
+
+            // add the new user
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'Integration',
+                'password' => $request->password,
+            ]);
+
+            session()->flash('message', 'User added successfully.');
+
+
+            return redirect()->back();
+        }
         return view('integrations.view', [
-            'user' => User::where("role", "Integration"),
+            'users' => User::where("role", "Integration")->get(),
         ]);
     }
 
