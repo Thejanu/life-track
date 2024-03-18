@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\IntegrationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MedicalRecordController;
+use App\Http\Controllers\MedicalRecordTypeController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,4 +33,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+Route::middleware(['auth', 'role:User'])->group(function () {
+    Route::get('/my-medical-profile', [MedicalRecordController::class, 'view'])->name('medicalProfile');
+    Route::match(['get', 'post'], '/add-record', [MedicalRecordController::class, 'add'])->name('user.addRecord');
+});
+
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::match(['get', 'post'], '/admins', [AdminController::class, 'handle'])->name('handleAdmins');
+    Route::get('/admins/suspend', [AdminController::class, 'delete'])->name('deleteAdmin');
+    Route::match(['get', 'post'], '/staff', [StaffController::class, 'handle'])->name('handleStaff');
+    Route::get('/staff/suspend', [StaffController::class, 'delete'])->name('deleteStaff');
+    Route::match(['get', 'post'], '/integrations', [IntegrationController::class, 'handle'])->name('handleIntegrations');
+    Route::get('/integrations/delete', [IntegrationController::class, 'delete'])->name('deleteIntegration');
+    Route::get('/medical-categories', [MedicalRecordTypeController::class, 'handle'])->name('medicalCategories');
+});
+
+require __DIR__ . '/auth.php';

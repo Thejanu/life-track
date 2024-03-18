@@ -16,6 +16,55 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                @if (Auth::user()->role === 'User')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('medicalProfile')" :active="request()->routeIs('medicalProfile')">
+                        {{ __('My Medical Profile') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('user.addRecord')" :active="request()->routeIs('user.addRecord')">
+                        {{ __('Add Record') }}
+                    </x-nav-link>
+                </div>
+                @endif
+
+                @if (Auth::user()->role === 'Admin')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('handleAdmins')" :active="request()->routeIs('handleAdmins')">
+                        {{ __('Admins') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('handleStaff')" :active="request()->routeIs('handleStaff')">
+                        {{ __('Healthcare Members') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('handleIntegrations')" :active="request()->routeIs('handleIntegrations')">
+                        {{ __('Provider Integrations') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('medicalCategories')" :active="request()->routeIs('medicalCategories')">
+                        {{ __('Medical Categories') }}
+                    </x-nav-link>
+                </div>
+                @endif
+
+                @if (Auth::user()->role === 'Staff')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('medicalProfile')" :active="request()->routeIs('medicalProfile')">
+                        {{ __('My Medical Profile') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('user.addRecord')" :active="request()->routeIs('user.addRecord')">
+                        {{ __('Add Record') }}
+                    </x-nav-link>
+                </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -42,8 +91,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -88,8 +136,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
