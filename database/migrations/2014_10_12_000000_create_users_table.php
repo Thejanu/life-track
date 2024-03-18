@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('blood_group')->nullable();
             $table->string('address')->nullable();
-            $table->string('nic')->nullable();
+            $table->string('nic')->nullable()->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

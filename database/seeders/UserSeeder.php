@@ -36,10 +36,49 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => "Wildlife Staff Member",
+            'name' => "User",
             'email' => 'user@gmail.com',
+            'nic' => '200012364587',
             'password' => Hash::make('Welcome@1234'),
             'role' => 'User'
+        ]);
+
+        DB::table('medical_record_types')->insert([
+            'name' => "Covid Vaccine - 1",
+            'should_validate' => true,
+            'details' => 'Should be completed before 2022 April 31.',
+        ]);
+
+        DB::table('medical_record_types')->insert([
+            'name' => "Covid Vaccine - 2",
+            'should_validate' => true,
+            'details' => 'Should be completed before 2022 April 31.',
+        ]);
+
+        DB::table('medical_record_types')->insert([
+            'name' => "Covid Vaccine - 3",
+            'should_validate' => true,
+            'details' => 'Should be completed before 2022 April 31.',
+        ]);
+
+        DB::table('medical_record_types')->insert([
+            'name' => "Blood Donations",
+            'should_validate' => true,
+            'details' => '',
+        ]);
+
+        DB::table('medical_record_types')->insert([
+            'name' => "Diabetics",
+            'should_validate' => true,
+            'details' => '',
+        ]);
+
+        DB::table('medical_records')->insert([
+            'user_id' => 4,
+            'medical_record_type_id' => 1,
+            'details' => '',
+            'location' => 'Colombo General Hospital',
+            'date' => '2024-01-01'
         ]);
     }
 }
