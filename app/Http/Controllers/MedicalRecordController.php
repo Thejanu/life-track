@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\MedicalRecord;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,12 @@ class MedicalRecordController extends Controller
      */
     public function view(Request $request): View
     {
-        return view('profile.edit', [
+
+        $records = MedicalRecord::with('type')->where('user_id', $request->user()->id)->get();
+
+        return view('user.my-medical-profile', [
             'user' => $request->user(),
+            'records' => $records
         ]);
     }
 
@@ -27,7 +32,7 @@ class MedicalRecordController extends Controller
     public function add(Request $request): View
     {
 
-        return view('profile.edit', [
+        return view('user.add-record', [
             'user' => $request->user(),
         ]);
     }
