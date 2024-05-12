@@ -29,7 +29,14 @@
         </header>
         @endif
 
-        @if (session()->has('message'))
+        @if (session()->has('error_message'))
+
+        <div class="max-w-[600px] text-center mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="p-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
+                {{ session('error_message') }}
+            </div>
+        </div>
+        @elseif (session()->has('message'))
 
         <div class="max-w-[600px] text-center mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="p-4 text-sm text-green-800 rounded-lg bg-green-50 " role="alert">

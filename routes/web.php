@@ -33,14 +33,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 Route::middleware(['auth', 'role:User'])->group(function () {
     Route::get('/my-medical-profile', [MedicalRecordController::class, 'view'])->name('medicalProfile');
     Route::match(['get', 'post'], '/add-record', [MedicalRecordController::class, 'add'])->name('user.addRecord');
 });
 
-
 Route::middleware(['auth', 'role:Staff'])->group(function () {
-    Route::get('/search-medical-profiles', [MedicalRecordController::class, 'view'])->name('searchMedicalProfiles');
+    Route::match(['get', 'post'], '/search-medical-profiles', [MedicalRecordController::class, 'search'])->name('searchMedicalProfiles');
     Route::match(['get', 'post'], '/add-record', [MedicalRecordController::class, 'add'])->name('user.addRecord');
 });
 

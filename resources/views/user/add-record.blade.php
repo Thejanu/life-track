@@ -12,6 +12,13 @@
                     <form method="POST" action="{{ route('user.addRecord') }}" enctype="multipart/form-data">
                         @csrf
 
+                        @if (Auth::user()->role === "Staff")
+                        <div class="mb-3">
+                            <label for="nic" class="block font-medium text-sm text-gray-700">NIC</label>
+                            <input type="text" name="nic" id="nic" class="mt-1 p-2 border border-gray-300 rounded-md w-full" required>
+                        </div>
+                        @endif
+
                         <!-- Allergies -->
                         <div class="mb-3">
                             <label for="medical_record_type_id" class="block font-medium text-sm text-gray-700">Type</label>
