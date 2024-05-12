@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\MedicalRecordType;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,11 +25,32 @@ class MedicalRecordTypeController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function add(Request $request): View
+    public function handle(Request $request)
     {
 
-        return view('profile.edit', [
-            'user' => $request->user(),
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'name' => 'required',
+                'details' => 'required',
+            ]);
+
+            // add the new user
+            MedicalRecordType::create([
+                'name' => $request->name,
+                'details' => $request->details,
+                'should_validate' => true,
+            ]);
+
+            session()->flash('message', 'Type added successfully.');
+
+
+            return redirect()->back();
+        }
+
+        $categories = MedicalRecordType::get();
+
+        return view('medical-record-types', [
+            'categories' => $categories,
         ]);
     }
 }

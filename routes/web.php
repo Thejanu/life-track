@@ -43,7 +43,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::match(['get', 'post'], '/admins', [AdminController::class, 'handle'])->name('handleAdmins');
     Route::match(['get', 'post'], '/staff', [StaffController::class, 'handle'])->name('handleStaff');
     Route::match(['get', 'post'], '/integrations', [IntegrationController::class, 'handle'])->name('handleIntegrations');
-    Route::get('/medical-categories', [MedicalRecordTypeController::class, 'handle'])->name('medicalCategories');
+    Route::match(['get', 'post'], '/medical-categories', [MedicalRecordTypeController::class, 'handle'])->name('medicalCategories');
 
     Route::get('/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
 });
