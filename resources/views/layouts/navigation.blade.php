@@ -55,7 +55,7 @@
 
                 @if (Auth::user()->role === 'Staff')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('medicalProfile')" :active="request()->routeIs('medicalProfile')">
+                    <x-nav-link :href="route('searchMedicalProfiles')" :active="request()->routeIs('searchMedicalProfiles')">
                         {{ __('Search Patient Data') }}
                     </x-nav-link>
                 </div>
