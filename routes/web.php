@@ -8,6 +8,9 @@ use App\Http\Controllers\MedicalRecordTypeController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
+
+use App\Models\News;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +27,14 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $news = News::orderBy('created_at', 'desc')->get();
+    return view('dashboard', [
+        'news' => $news
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/news/view/{id}', [AdminController::class, 'viewNews'])->name('viewNews');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -47,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::match(['get', 'post'], '/news/add', [AdminController::class, 'addNews'])->name('addNews');
     Route::match(['get', 'post'], '/admins', [AdminController::class, 'handle'])->name('handleAdmins');
     Route::match(['get', 'post'], '/staff', [StaffController::class, 'handle'])->name('handleStaff');
     Route::match(['get', 'post'], '/integrations', [IntegrationController::class, 'handle'])->name('handleIntegrations');

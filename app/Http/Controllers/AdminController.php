@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Models\News;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,5 +58,46 @@ class AdminController extends Controller
 
 
         return redirect()->back();
+    }
+
+    public function viewNews($id)
+    {
+
+        $news = News::find($id);
+
+        return view('news.view', [
+            'item' => $news,
+        ]);
+    }
+
+    public function addNews(Request $request)
+    {
+
+        if ($request->isMethod('post')) {
+
+            $validated = $request->validate([
+                'title' => 'required|max:255',
+                'link' => 'required|max:255',
+                'summary' => 'required',
+                'details' => 'required',
+            ]);
+
+
+            $news = new News();
+
+            $news->title = $request->title;
+            $news->link = $request->link;
+            $news->summary = $request->summary;
+            $news->details = $request->details;
+
+            $news->save();
+
+            session()->flash('message', 'News item added.');
+
+
+            return redirect("/dashboard");
+        }
+
+        return view('news.add');
     }
 }
