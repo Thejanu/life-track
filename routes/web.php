@@ -36,11 +36,13 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:User'])->group(function () {
     Route::get('/my-medical-profile', [MedicalRecordController::class, 'view'])->name('medicalProfile');
-    Route::match(['get', 'post'], '/add-record', [MedicalRecordController::class, 'add'])->name('user.addRecord');
 });
 
 Route::middleware(['auth', 'role:Staff'])->group(function () {
     Route::match(['get', 'post'], '/search-medical-profiles', [MedicalRecordController::class, 'search'])->name('searchMedicalProfiles');
+});
+
+Route::middleware(['auth'])->group(function () {
     Route::match(['get', 'post'], '/add-record', [MedicalRecordController::class, 'add'])->name('user.addRecord');
 });
 
@@ -52,5 +54,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
     Route::get('/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
 });
+
+Route::get('/view-image', [MedicalRecordController::class, 'view_image'])->middleware(['auth'])->name('view_image');
+
 
 require __DIR__ . '/auth.php';

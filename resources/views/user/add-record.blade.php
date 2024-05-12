@@ -48,6 +48,11 @@
                             <textarea name="details" id="details" class="mt-1 p-2 border border-gray-300 rounded-md w-full" required></textarea>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="assets" class="block font-medium text-sm text-gray-700">Files</label>
+                            <input type="file" name="assets[]" id="assets" multiple class="mt-1 p-2 border border-gray-300 rounded-md w-full" accept="image/jpeg">
+                        </div>
+
 
                         <!-- Submit button -->
                         <x-primary-button class="mt-3">
