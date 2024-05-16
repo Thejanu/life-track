@@ -78,7 +78,7 @@ class UserSeeder extends Seeder
         DB::table('medical_records')->insert([
             'user_id' => 4,
             'medical_record_type_id' => 1,
-            'details' => '',
+            'details' => 'Details',
             'location' => 'Colombo General Hospital',
             'date' => '2024-01-01'
         ]);

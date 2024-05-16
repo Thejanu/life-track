@@ -12,9 +12,17 @@
                     <form method="POST" action="{{ route('user.addRecord') }}" enctype="multipart/form-data">
                         @csrf
 
-                        @if (Auth::user()->role === "Staff")
+
+
+                        @if (Auth::user()->role === "Staff" || null != Request::query('child'))
                         <div class="mb-3">
-                            <label for="nic" class="block font-medium text-sm text-gray-700">NIC</label>
+                            <label for="nic" class="block font-medium text-sm text-gray-700">
+                                @if (null != Request::query('child'))
+                                Birth Certificate Number
+                                @else
+                                NIC
+                                @endif
+                            </label>
                             <input type="text" name="nic" id="nic" class="mt-1 p-2 border border-gray-300 rounded-md w-full" required>
                         </div>
                         @endif

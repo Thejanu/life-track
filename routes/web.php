@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:User'])->group(function () {
     Route::get('/my-medical-profile', [MedicalRecordController::class, 'view'])->name('medicalProfile');
+    Route::get('/my-children', [ProfileController::class, 'my_children'])->name('myChildren');
+    Route::match(['get', 'post'], '/my-children/add', [ProfileController::class, 'add_child'])->name('addChild');
 });
 
 Route::middleware(['auth', 'role:Staff'])->group(function () {

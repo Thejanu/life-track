@@ -42,7 +42,7 @@ class MedicalRecordController extends Controller
 
         if ($request->isMethod('post')) {
             $userId = $request->user()->id;
-            if ($request->user()->role === "Staff") {
+            if ($request->nic) {
                 $user = User::where('nic', '=', $request->nic)->first();
                 if (!$user) {
                     session()->flash('error_message', 'User not found.');

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+use App\Models\User;
+
 class ProfileController extends Controller
 {
     /**
@@ -56,5 +58,45 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function my_children(Request $request): View
+    {
+        $children = User::where('parent_id', $request->user()->id)->get();
+
+
+        return view('user.my-children', [
+            'children' => $children,
+        ]);
+    }
+
+    public function add_child(Request $request)
+    {
+        if ($request->isMethod('post')) {
+
+            $validated = $request->validate([
+                'nic' => 'required|unique:users|max:255',
+                'name' => 'required',
+            ]);
+
+            // add the new user
+            User::create([
+                'name' => $request->name,
+                'email' => time() . "@gmail.com",
+                'nic' => $request->nic,
+                'dob' => $request->dob,
+                'role' => 'User',
+                'password' => '',
+                'parent_id' => $request->user()->id,
+            ]);
+
+            session()->flash('message', 'User added successfully.');
+
+
+            return redirect('/my-children');
+        }
+        return view('user.add-child', [
+            'children' => [],
+        ]);
     }
 }
