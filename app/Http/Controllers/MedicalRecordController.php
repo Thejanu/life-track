@@ -22,10 +22,16 @@ class MedicalRecordController extends Controller
     public function view(Request $request): View
     {
 
-        $records = MedicalRecord::with('type')->where('user_id', $request->user()->id)->orderBy('date', 'desc')->get();
+
+        $user_id = $request->id ? $request->id : $request->user()->id;
+
+        $user = $request->id ? User::find($request->id) : $request->user();
+
+
+        $records = MedicalRecord::with('type')->where('user_id', $user_id)->orderBy('date', 'desc')->get();
 
         return view('user.my-medical-profile', [
-            'user' => $request->user(),
+            'user' => $user,
             'records' => $records
         ]);
     }

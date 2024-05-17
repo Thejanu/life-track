@@ -30,9 +30,18 @@
                 <div class="max-w-xl">
                     <p>{{$child->name}}</p>
                     <small>{{$child->dob}}</small>
-                    <hr>
-                    <br>
+                    <hr class="mb-3 mt-2">
                     <x-primary-link href="/add-record?child=1">Add Medical Record</x-primary-link>
+                    <form method="POST" action="{{ route('medicalProfile') }}" class="inline">
+                        @csrf
+
+                        <input type="hidden" name="id" value="{{$child->id}}">
+
+
+                        <x-primary-button class="ms-3">
+                            {{ __('View Records') }}
+                        </x-primary-button>
+                    </form>
                 </div>
             </div>
         </div>
